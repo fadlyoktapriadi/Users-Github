@@ -8,7 +8,7 @@ data class GithubResponse(
 	val totalCount: Int? = null,
 
 	@field:SerializedName("items")
-	val items: List<UserGithub?>? = null
+	val items: List<UserGithub>
 )
 
 data class UserGithub(

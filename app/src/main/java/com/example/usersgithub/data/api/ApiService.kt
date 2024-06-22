@@ -1,15 +1,18 @@
+package com.example.usersgithub.data.api
+
 import com.example.usersgithub.data.api.response.DetailUserResponse
 import com.example.usersgithub.data.api.response.FollowingFollowersResponseItem
 import com.example.usersgithub.data.api.response.GithubResponse
+import com.example.usersgithub.data.api.response.UserGithub
 import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
 
     @GET("search/users")
-    fun getUsers(
+    suspend fun getUsers(
         @Query("q") login: String
-    ): Call<GithubResponse>
+    ): GithubResponse
 
     @GET("users/{username}")
     fun getDetailUser(@Path("username") username: String
@@ -22,7 +25,4 @@ interface ApiService {
     @GET("users/{username}/followers")
     fun getFollowers(@Path("username") username: String
     ): Call<List<FollowingFollowersResponseItem>>
-
-
-
 }

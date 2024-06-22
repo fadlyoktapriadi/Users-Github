@@ -1,23 +1,20 @@
 package com.example.usersgithub.ui.detail
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.usersgithub.data.api.response.DetailUserResponse
 import com.example.usersgithub.data.api.response.FollowingFollowersResponseItem
-import com.example.usersgithub.data.api.retrofit.ApiConfig
+import com.example.usersgithub.data.api.ApiConfig
 import com.example.usersgithub.data.local.database.FavoriteUserGithub
-import com.example.usersgithub.repository.FavoriteRepository
+import com.example.usersgithub.repository.UsersRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailUserViewModel(application: Application) : ViewModel() {
+class DetailUserViewModel(private val repository: UsersRepository) : ViewModel() {
 
-    private val mApplication: FavoriteRepository =
-        FavoriteRepository(application)
 
     private val _detailUserGithub = MutableLiveData<DetailUserResponse>()
     val detailUser: LiveData<DetailUserResponse> = _detailUserGithub
@@ -37,16 +34,16 @@ class DetailUserViewModel(application: Application) : ViewModel() {
 //        mApplication.getFavoriteUserByUsername(username)
 //    }
 
-    fun getFavoriteUserByUsername(username : String): LiveData<FavoriteUserGithub> =
-        mApplication.getFavoriteUserByUsername(username)
-
-    fun insert(favorite: FavoriteUserGithub) {
-        mApplication.insert(favorite)
-    }
-
-    fun delete(favorite: FavoriteUserGithub) {
-        mApplication.delete(favorite)
-    }
+//    fun getFavoriteUserByUsername(username : String): LiveData<FavoriteUserGithub> =
+//        mApplication.getFavoriteUserByUsername(username)
+//
+//    fun insert(favorite: FavoriteUserGithub) {
+//        mApplication.insert(favorite)
+//    }
+//
+//    fun delete(favorite: FavoriteUserGithub) {
+//        mApplication.delete(favorite)
+//    }
 
     var username: String = ""
         set(value) {

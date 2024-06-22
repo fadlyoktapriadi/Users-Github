@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.usersgithub.data.local.database.FavoriteUserGithub
-import com.example.usersgithub.repository.FavoriteRepository
+import com.example.usersgithub.repository.UsersRepository
 
-class FavoriteViewModel(application: Application) : ViewModel() {
+class FavoriteViewModel(private val repository: UsersRepository) : ViewModel() {
 
-    private val mFavoriteRepository: FavoriteRepository = FavoriteRepository(application)
+//    private val mFavoriteRepository: UsersRepository = UsersRepository(application)
 
-    fun getFavoriteUser(): LiveData<List<FavoriteUserGithub>> = mFavoriteRepository.getFavoriteUser()
+//    fun getFavoriteUser(): LiveData<List<FavoriteUserGithub>> = mFavoriteRepository.getFavoriteUser()
 }

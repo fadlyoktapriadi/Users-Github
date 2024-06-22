@@ -1,6 +1,5 @@
-package com.example.usersgithub.data.api.retrofit
+package com.example.usersgithub.data.api
 
-import ApiService
 import com.example.usersgithub.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

@@ -1,33 +1,52 @@
 package com.example.usersgithub.repository
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.usersgithub.di.Injection
 import com.example.usersgithub.ui.detail.DetailUserViewModel
 import com.example.usersgithub.ui.favorite.FavoriteViewModel
+import com.example.usersgithub.ui.main.MainViewModel
+import com.example.usersgithub.ui.setting.SettingViewModel
 
-class ViewModelFactory private constructor(private val mApplication: Application) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(private val repository: UsersRepository) :
+    ViewModelProvider.NewInstanceFactory() {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return when {
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(repository) as T
+            }
+
+            modelClass.isAssignableFrom(DetailUserViewModel::class.java) -> {
+                DetailUserViewModel(repository) as T
+            }
+
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(repository) as T
+            }
+
+            modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
+                SettingViewModel(repository) as T
+            }
+
+            else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
+        }
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: ViewModelFactory? = null
+
         @JvmStatic
-        fun getInstance(application: Application): ViewModelFactory {
+        fun getInstance(context: Context): ViewModelFactory {
             if (INSTANCE == null) {
                 synchronized(ViewModelFactory::class.java) {
-                    INSTANCE = ViewModelFactory(application)
+                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
                 }
             }
             return INSTANCE as ViewModelFactory
         }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailUserViewModel::class.java)) {
-            return DetailUserViewModel(mApplication) as T
-        } else if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
-            return FavoriteViewModel(mApplication) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }
