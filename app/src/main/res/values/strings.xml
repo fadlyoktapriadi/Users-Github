@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Users Github</string>
+    <string name="hint_search">Cari User Github...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--    askjdfhhjkasdf-->
+    <string name="tab_text_1">Following</string>
+    <string name="tab_text_2">Followers</string>
+    <string name="setting">Setting</string>
+    <string name="favorite">Favorite</string>
+    <string name="night_mode">Night Mode</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>
