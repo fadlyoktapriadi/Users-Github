@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.usersgithub.R
 import com.example.usersgithub.data.local.database.FavoriteUserGithub
 import com.example.usersgithub.databinding.ItemUserBinding
-import com.example.usersgithub.ui.detail.DetailUserGithub
+import com.example.usersgithub.ui.detail.DetailActivity
 
 class FavoriteAdapter : ListAdapter<FavoriteUserGithub, FavoriteAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
@@ -29,7 +29,7 @@ class FavoriteAdapter : ListAdapter<FavoriteUserGithub, FavoriteAdapter.MyViewHo
 
         holder.itemView.setOnClickListener {
             val intentDetailUserGithub =
-                Intent(holder.itemView.context, DetailUserGithub::class.java)
+                Intent(holder.itemView.context, DetailActivity::class.java)
             intentDetailUserGithub.putExtra("username", userfav.username)
             intentDetailUserGithub.putExtra("avatar", userfav.username)
             holder.itemView.context.startActivity(intentDetailUserGithub)

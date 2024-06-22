@@ -1,37 +1,47 @@
 package com.example.usersgithub.ui.detail
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import android.view.View
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.usersgithub.R
-import com.example.usersgithub.data.api.response.DetailUserResponse
-import com.example.usersgithub.data.local.database.FavoriteUserGithub
-import com.example.usersgithub.databinding.ActivityDetailUserGithubBinding
-import com.example.usersgithub.repository.ViewModelFactory
-import com.example.usersgithub.ui.setting.SettingViewModel
-import com.example.usersgithub.data.local.preference.SettingPreferences
-import com.example.usersgithub.data.local.preference.dataStore
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.usersgithub.data.api.response.UserGithub
+import com.example.usersgithub.databinding.ActivityDetailBinding
 
 
-class DetailUserGithub : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
-//    lateinit var binding: ActivityDetailUserGithubBinding
+    lateinit var binding: ActivityDetailBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        supportActionBar?.hide()
+
+        val usergithub: UserGithub? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("Usergithub", UserGithub::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("Usergithub")
+        }
+
+        setupDetail(usergithub)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupDetail(usergithub: UserGithub?) {
+        binding.tvUsernameDetail.text = usergithub!!.login
+        binding.tvNameAlias.text = usergithub!!.name
+        binding.tvFollowing.text = "${usergithub!!.following} Following"
+        binding.tvFollowers.text = "${usergithub!!.followers} Followers"
+        Glide.with(this)
+            .load(usergithub!!.avatarUrl)
+            .into(binding.profileImageDetail)
+    }
+
 //
-//    private var favorite: FavoriteUserGithub? = null
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_detail_user_github)
-//
-//        supportActionBar?.hide()
 //
 ////        val pref = SettingPreferences.getInstance(application.dataStore)
 ////        val settingviewModel = ViewModelProvider(this, SettingModelFactory(pref)).get(
@@ -138,5 +148,4 @@ class DetailUserGithub : AppCompatActivity() {
 //            R.string.tab_text_1,
 //            R.string.tab_text_2
 //        )
-//    }
 }

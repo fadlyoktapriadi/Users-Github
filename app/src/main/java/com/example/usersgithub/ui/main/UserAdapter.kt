@@ -9,7 +9,7 @@ import com.example.usersgithub.databinding.ItemUserBinding
 import androidx.recyclerview.widget.ListAdapter
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.example.usersgithub.ui.detail.DetailUserGithub
+import com.example.usersgithub.ui.detail.DetailActivity
 
 
 class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -25,18 +25,16 @@ class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLB
 
 
         holder.itemView.setOnClickListener {
-            val intentDetailUserGithub =
-                Intent(holder.itemView.context, DetailUserGithub::class.java)
-            intentDetailUserGithub.putExtra("username", user.login)
-            intentDetailUserGithub.putExtra("avatar", user.avatarUrl)
-            holder.itemView.context.startActivity(intentDetailUserGithub)
+            val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
+            intentDetail.putExtra("Usergithub", user)
+            holder.itemView.context.startActivity(intentDetail)
         }
     }
 
     class MyViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: UserGithub) {
-            binding.tvUsername.text = "${user.login}"
-            Glide.with(binding.photoProfile.getContext())
+            binding.tvUsername.text = user.login
+            Glide.with(binding.photoProfile.context)
                 .load(user.avatarUrl)
                 .into(binding.photoProfile);
         }
