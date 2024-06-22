@@ -1,4 +1,4 @@
-package com.example.usersgithub.ui
+package com.example.usersgithub.ui.favorite
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,15 +6,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
-import com.example.usersgithub.adapter.FavoriteAdapter
-import com.example.usersgithub.data.database.FavoriteUserGithub
+import com.example.usersgithub.data.local.database.FavoriteUserGithub
 import com.example.usersgithub.databinding.ActivityFavoriteUserBinding
 import com.example.usersgithub.repository.SettingModelFactory
 import com.example.usersgithub.repository.ViewModelFactory
-import com.example.usersgithub.model.FavoriteViewModel
-import com.example.usersgithub.model.SettingViewModel
-import com.example.usersgithub.data.preference.SettingPreferences
-import com.example.usersgithub.data.preference.dataStore
+import com.example.usersgithub.ui.setting.SettingViewModel
+import com.example.usersgithub.data.local.preference.SettingPreferences
+import com.example.usersgithub.data.local.preference.dataStore
 
 class FavoriteUser : AppCompatActivity() {
 

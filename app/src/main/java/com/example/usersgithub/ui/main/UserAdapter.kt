@@ -1,4 +1,4 @@
-package com.example.usersgithub.adapter
+package com.example.usersgithub.ui.main
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,10 +8,8 @@ import com.example.usersgithub.data.api.response.UserGithub
 import com.example.usersgithub.databinding.ItemUserBinding
 import androidx.recyclerview.widget.ListAdapter
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.example.usersgithub.R
-import com.example.usersgithub.ui.DetailUserGithub
+import com.example.usersgithub.ui.detail.DetailUserGithub
 
 
 class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {

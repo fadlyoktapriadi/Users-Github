@@ -1,4 +1,4 @@
-package com.example.usersgithub.data.preference
+package com.example.usersgithub.data.local.preference
 
 import android.content.Context
 import androidx.datastore.core.DataStore

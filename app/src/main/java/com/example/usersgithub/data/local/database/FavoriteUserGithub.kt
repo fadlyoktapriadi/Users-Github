@@ -1,4 +1,4 @@
-package com.example.usersgithub.data.database
+package com.example.usersgithub.data.local.database
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

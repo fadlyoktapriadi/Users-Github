@@ -1,4 +1,4 @@
-package com.example.usersgithub.data.database
+package com.example.usersgithub.data.local.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

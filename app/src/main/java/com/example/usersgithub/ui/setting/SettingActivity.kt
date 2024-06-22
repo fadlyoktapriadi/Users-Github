@@ -1,4 +1,4 @@
-package com.example.usersgithub.ui
+package com.example.usersgithub.ui.setting
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,12 +7,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.usersgithub.R
 import com.example.usersgithub.repository.SettingModelFactory
-import com.example.usersgithub.model.SettingViewModel
-import com.example.usersgithub.data.preference.SettingPreferences
-import com.example.usersgithub.data.preference.dataStore
+import com.example.usersgithub.data.local.preference.SettingPreferences
+import com.example.usersgithub.data.local.preference.dataStore
 import com.google.android.material.switchmaterial.SwitchMaterial
 
-class SettingTheme : AppCompatActivity() {
+class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_theme)

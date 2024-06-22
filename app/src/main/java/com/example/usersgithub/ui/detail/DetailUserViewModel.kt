@@ -1,4 +1,4 @@
-package com.example.usersgithub.model
+package com.example.usersgithub.ui.detail
 
 import android.app.Application
 import android.util.Log
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.usersgithub.data.api.response.DetailUserResponse
 import com.example.usersgithub.data.api.response.FollowingFollowersResponseItem
 import com.example.usersgithub.data.api.retrofit.ApiConfig
-import com.example.usersgithub.data.database.FavoriteUserGithub
+import com.example.usersgithub.data.local.database.FavoriteUserGithub
 import com.example.usersgithub.repository.FavoriteRepository
 import retrofit2.Call
 import retrofit2.Callback

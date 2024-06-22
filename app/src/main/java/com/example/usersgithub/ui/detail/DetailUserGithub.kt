@@ -1,4 +1,4 @@
-package com.example.usersgithub.ui
+package com.example.usersgithub.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,16 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
-import com.example.usersgithub.adapter.SectionsPagerAdapter
 import com.example.usersgithub.data.api.response.DetailUserResponse
-import com.example.usersgithub.data.database.FavoriteUserGithub
+import com.example.usersgithub.data.local.database.FavoriteUserGithub
 import com.example.usersgithub.databinding.ActivityDetailUserGithubBinding
 import com.example.usersgithub.repository.SettingModelFactory
 import com.example.usersgithub.repository.ViewModelFactory
-import com.example.usersgithub.model.DetailUserViewModel
-import com.example.usersgithub.model.SettingViewModel
-import com.example.usersgithub.data.preference.SettingPreferences
-import com.example.usersgithub.data.preference.dataStore
+import com.example.usersgithub.ui.setting.SettingViewModel
+import com.example.usersgithub.data.local.preference.SettingPreferences
+import com.example.usersgithub.data.local.preference.dataStore
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

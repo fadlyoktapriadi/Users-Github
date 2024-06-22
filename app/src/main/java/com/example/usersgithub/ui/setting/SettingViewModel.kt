@@ -1,10 +1,10 @@
-package com.example.usersgithub.model
+package com.example.usersgithub.ui.setting
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.usersgithub.data.preference.SettingPreferences
+import com.example.usersgithub.data.local.preference.SettingPreferences
 import kotlinx.coroutines.launch
 
 class SettingViewModel (private val pref: SettingPreferences) : ViewModel() {

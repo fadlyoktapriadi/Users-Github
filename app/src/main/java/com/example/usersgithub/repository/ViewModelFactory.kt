@@ -3,8 +3,8 @@ package com.example.usersgithub.repository
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.usersgithub.model.DetailUserViewModel
-import com.example.usersgithub.model.FavoriteViewModel
+import com.example.usersgithub.ui.detail.DetailUserViewModel
+import com.example.usersgithub.ui.favorite.FavoriteViewModel
 
 class ViewModelFactory private constructor(private val mApplication: Application) : ViewModelProvider.NewInstanceFactory() {
     companion object {

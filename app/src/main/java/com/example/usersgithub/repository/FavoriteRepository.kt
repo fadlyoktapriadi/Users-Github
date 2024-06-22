@@ -1,9 +1,9 @@
 package com.example.usersgithub.repository
 
 import android.app.Application
-import com.example.usersgithub.data.database.FavoriteDao
-import com.example.usersgithub.data.database.FavoriteRoomDatabase
-import com.example.usersgithub.data.database.FavoriteUserGithub
+import com.example.usersgithub.data.local.database.FavoriteDao
+import com.example.usersgithub.data.local.database.FavoriteRoomDatabase
+import com.example.usersgithub.data.local.database.FavoriteUserGithub
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import androidx.lifecycle.LiveData

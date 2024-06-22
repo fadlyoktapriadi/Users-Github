@@ -1,4 +1,4 @@
-package com.example.usersgithub.ui
+package com.example.usersgithub.ui.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,14 +10,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
-import com.example.usersgithub.adapter.UserAdapter
 import com.example.usersgithub.data.api.response.UserGithub
 import com.example.usersgithub.databinding.ActivityMainBinding
 import com.example.usersgithub.repository.SettingModelFactory
-import com.example.usersgithub.model.MainViewModel
-import com.example.usersgithub.model.SettingViewModel
-import com.example.usersgithub.data.preference.SettingPreferences
-import com.example.usersgithub.data.preference.dataStore
+import com.example.usersgithub.ui.setting.SettingViewModel
+import com.example.usersgithub.data.local.preference.SettingPreferences
+import com.example.usersgithub.data.local.preference.dataStore
+import com.example.usersgithub.ui.favorite.FavoriteUser
+import com.example.usersgithub.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                             true
                         }
                         R.id.setting_item -> {
-                            val favoriteIntent = Intent(this@MainActivity, SettingTheme::class.java)
+                            val favoriteIntent = Intent(this@MainActivity, SettingActivity::class.java)
                             startActivity(favoriteIntent)
                             true
                         }

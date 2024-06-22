@@ -1,4 +1,4 @@
-package com.example.usersgithub.adapter
+package com.example.usersgithub.ui.favorite
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
-import com.example.usersgithub.data.database.FavoriteUserGithub
+import com.example.usersgithub.data.local.database.FavoriteUserGithub
 import com.example.usersgithub.databinding.ItemUserBinding
-import com.example.usersgithub.ui.DetailUserGithub
+import com.example.usersgithub.ui.detail.DetailUserGithub
 
 class FavoriteAdapter : ListAdapter<FavoriteUserGithub, FavoriteAdapter.MyViewHolder>(DIFF_CALLBACK) {
 

@@ -5,6 +5,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
+
 android {
     namespace = "com.example.usersgithub"
     compileSdk = 34
@@ -16,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "KEY", "\"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\"")
+//        buildConfigField("String", "KEY", "\"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\"")
         buildConfigField("String", "BaseURL", "\"https://api.github.com/\"")
 
     }
