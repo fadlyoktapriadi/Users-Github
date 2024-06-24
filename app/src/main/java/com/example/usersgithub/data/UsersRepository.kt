@@ -1,4 +1,4 @@
-package com.example.usersgithub.repository
+package com.example.usersgithub.data
 
 import com.example.usersgithub.data.api.ApiService
 import android.annotation.SuppressLint
@@ -9,9 +9,10 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.example.usersgithub.data.api.response.GithubResponse
+import com.example.usersgithub.data.api.response.DetailUserResponse
 import com.example.usersgithub.data.api.response.UserGithub
 import com.example.usersgithub.data.local.preference.SettingPreferences
+import com.example.usersgithub.factory.Result
 
 class UsersRepository private constructor(
     private val context: Context,
@@ -31,6 +32,16 @@ class UsersRepository private constructor(
         try {
             val response = apiService.getUsers("fadly")
             emit(Result.Success(response.items))
+        } catch (e: Exception) {
+            emit(Result.Error("${e.message}"))
+        }
+    }
+
+    fun getDetailUser(username: String): LiveData<Result<DetailUserResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getDetailUser(username)
+            emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error("${e.message}"))
         }

@@ -1,17 +1,29 @@
 package com.example.usersgithub.ui.detail
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.usersgithub.data.api.response.UserGithub
+import com.example.usersgithub.R
 import com.example.usersgithub.databinding.ActivityDetailBinding
+import com.example.usersgithub.factory.ViewModelFactory
+import com.example.usersgithub.factory.Result
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class DetailActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityDetailBinding
+
+    private val viewModel by viewModels<DetailViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,28 +32,54 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        val usergithub: UserGithub? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("Usergithub", UserGithub::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getParcelableExtra("Usergithub")
-        }
-
-        setupDetail(usergithub)
+        setupview()
+        setuptab()
     }
+
 
     @SuppressLint("SetTextI18n")
-    private fun setupDetail(usergithub: UserGithub?) {
-        binding.tvUsernameDetail.text = usergithub!!.login
-        binding.tvNameAlias.text = usergithub!!.name
-        binding.tvFollowing.text = "${usergithub!!.following} Following"
-        binding.tvFollowers.text = "${usergithub!!.followers} Followers"
-        Glide.with(this)
-            .load(usergithub!!.avatarUrl)
-            .into(binding.profileImageDetail)
+    private fun setupview() {
+        viewModel.getDetailUser(intent.getStringExtra("login").toString()).observe(this) {
+            when (it) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.tvUsernameDetail.text = it.data.login
+                    binding.tvNameAlias.text = it.data.name
+                    binding.tvFollowing.text = "${it.data.following} Following"
+                    binding.tvFollowers.text = "${it.data.followers} Followers"
+                    Glide.with(this)
+                        .load(it.data.avatarUrl)
+                        .into(binding.profileImageDetail)
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Gagal ambil data ${it.error}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
-//
+    private fun setuptab() {
+//        val sectionsPagerAdapter = SectionsPagerAdapter(this, intent.getStringExtra("login").toString())
+//        binding.viewPager.adapter = sectionsPagerAdapter
+//        binding.tabs.setupWithViewPager(binding.viewPager)
+
+        val tabLayout = findViewById<TabLayout>(R.id.tabs)
+        val viewPager2 = findViewById<ViewPager2>(R.id.view_pager)
+        val adapter = SectionsPagerAdapter(this)
+
+        viewPager2.adapter = adapter
+        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+            tab.text = resources.getString(TAB_TITLES[position])
+        }.attach()
+    }
+
+    //
 //
 ////        val pref = SettingPreferences.getInstance(application.dataStore)
 ////        val settingviewModel = ViewModelProvider(this, SettingModelFactory(pref)).get(
@@ -71,14 +109,7 @@ class DetailActivity : AppCompatActivity() {
 //            showLoading(it)
 //        }
 //
-//        val tabLayout = findViewById<TabLayout>(R.id.tabs)
-//        val viewPager2 = findViewById<ViewPager2>(R.id.view_pager)
-//        val adapter = SectionsPagerAdapter(this)
 //
-//        viewPager2.adapter = adapter
-//        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-//            tab.text = resources.getString(TAB_TITLES[position])
-//        }.attach()
 //
 //        val username = intent.extras?.getString("username").toString()
 //        val avatar = intent.extras?.getString("avatar").toString()
@@ -142,10 +173,11 @@ class DetailActivity : AppCompatActivity() {
 //        binding.progressBar.visibility = if (state) View.VISIBLE else View.GONE
 //    }
 //
-//    companion object {
-//        @StringRes
-//        private val TAB_TITLES = intArrayOf(
-//            R.string.tab_text_1,
-//            R.string.tab_text_2
-//        )
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_text_1,
+            R.string.tab_text_2
+        )
+    }
 }

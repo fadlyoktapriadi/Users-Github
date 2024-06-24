@@ -1,11 +1,11 @@
-package com.example.usersgithub.repository
+package com.example.usersgithub.factory
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.usersgithub.data.UsersRepository
 import com.example.usersgithub.di.Injection
-import com.example.usersgithub.ui.detail.DetailUserViewModel
+import com.example.usersgithub.ui.detail.DetailViewModel
 import com.example.usersgithub.ui.favorite.FavoriteViewModel
 import com.example.usersgithub.ui.main.MainViewModel
 import com.example.usersgithub.ui.setting.SettingViewModel
@@ -19,8 +19,8 @@ class ViewModelFactory(private val repository: UsersRepository) :
                 MainViewModel(repository) as T
             }
 
-            modelClass.isAssignableFrom(DetailUserViewModel::class.java) -> {
-                DetailUserViewModel(repository) as T
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(repository) as T
             }
 
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {

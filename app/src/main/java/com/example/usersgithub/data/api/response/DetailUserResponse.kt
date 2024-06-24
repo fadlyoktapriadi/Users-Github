@@ -7,9 +7,6 @@ data class DetailUserResponse(
     @field:SerializedName("login")
     val login: String,
 
-    @field:SerializedName("id")
-    val id: Int,
-
     @field:SerializedName("followers")
     val followers: Int,
 

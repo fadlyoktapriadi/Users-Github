@@ -11,10 +11,9 @@ import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
-import com.example.usersgithub.data.api.response.UserGithub
 import com.example.usersgithub.databinding.ActivityMainBinding
-import com.example.usersgithub.repository.Result
-import com.example.usersgithub.repository.ViewModelFactory
+import com.example.usersgithub.factory.Result
+import com.example.usersgithub.factory.ViewModelFactory
 import com.example.usersgithub.ui.favorite.FavoriteUser
 import com.example.usersgithub.ui.setting.SettingActivity
 

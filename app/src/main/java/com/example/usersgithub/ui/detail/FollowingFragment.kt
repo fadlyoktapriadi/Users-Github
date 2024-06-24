@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.data.api.response.FollowingFollowersResponseItem
 import com.example.usersgithub.databinding.FragmentFollowingBinding
-import com.example.usersgithub.repository.ViewModelFactory
+import com.example.usersgithub.factory.ViewModelFactory
 
 class FollowingFragment : Fragment() {
 
@@ -25,7 +25,7 @@ class FollowingFragment : Fragment() {
 
         binding.rvFollowing.layoutManager = LinearLayoutManager(requireActivity())
 
-        val detailUserViewModel by viewModels<DetailUserViewModel>{
+        val detailUserViewModel by viewModels<DetailViewModel>{
             ViewModelFactory.getInstance(requireActivity().application)
         }
 

@@ -26,7 +26,7 @@ class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLB
 
         holder.itemView.setOnClickListener {
             val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
-            intentDetail.putExtra("Usergithub", user)
+            intentDetail.putExtra("login", user.login)
             holder.itemView.context.startActivity(intentDetail)
         }
     }

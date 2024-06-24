@@ -1,10 +1,7 @@
 package com.example.usersgithub.ui.favorite
 
-import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.usersgithub.data.local.database.FavoriteUserGithub
-import com.example.usersgithub.repository.UsersRepository
+import com.example.usersgithub.data.UsersRepository
 
 class FavoriteViewModel(private val repository: UsersRepository) : ViewModel() {
 

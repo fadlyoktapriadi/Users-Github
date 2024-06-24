@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.usersgithub.data.api.ApiConfig
 import com.example.usersgithub.data.local.preference.SettingPreferences
 import com.example.usersgithub.data.local.preference.dataStore
-import com.example.usersgithub.repository.UsersRepository
+import com.example.usersgithub.data.UsersRepository
 
 object Injection {
     fun provideRepository(context: Context): UsersRepository {
