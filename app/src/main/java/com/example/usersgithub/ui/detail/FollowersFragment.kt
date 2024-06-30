@@ -1,44 +1,33 @@
 package com.example.usersgithub.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.usersgithub.data.api.response.FollowingFollowersResponseItem
 import com.example.usersgithub.databinding.FragmentFollowersBinding
+import com.example.usersgithub.factory.Result
 import com.example.usersgithub.factory.ViewModelFactory
 
 
 class FollowersFragment : Fragment() {
 
-    private lateinit var username: String
     private lateinit var binding: FragmentFollowersBinding
+    private val viewModel by viewModels<DetailViewModel> {
+        ViewModelFactory.getInstance(requireActivity().application)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        username = requireActivity().intent.extras?.getString("username").toString()
+        val username = requireActivity().intent.extras?.getString("login").toString()
         binding = FragmentFollowersBinding.bind(view)
 
         binding.rvFollowers.layoutManager = LinearLayoutManager(requireActivity())
-
-
-        val detailUserViewModel by viewModels<DetailViewModel>{
-            ViewModelFactory.getInstance(requireActivity().application)
-        }
-
-        detailUserViewModel.getFollowers(username)
-
-        detailUserViewModel.followersResponseItem.observe(viewLifecycleOwner) { followers ->
-            setFollowingData(followers)
-        }
-
-        detailUserViewModel.isLoading.observe(viewLifecycleOwner) {
-            showLoading(it)
-        }
+        setupData(username)
     }
 
     override fun onCreateView(
@@ -49,13 +38,24 @@ class FollowersFragment : Fragment() {
         return binding.root
     }
 
-    private fun setFollowingData(followers: List<FollowingFollowersResponseItem>) {
-        val adapter = FollowAdapter()
-        adapter.submitList(followers)
-        binding.rvFollowers.adapter = adapter
-    }
+    private fun setupData(username: String) {
+        viewModel.getFollowers(username).observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
 
-    private fun showLoading(state: Boolean) {
-        binding.progressBar.visibility = if (state) View.VISIBLE else View.GONE
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    val adapter = FollowAdapter()
+                    adapter.submitList(it.data)
+                    binding.rvFollowers.adapter = adapter
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
     }
 }

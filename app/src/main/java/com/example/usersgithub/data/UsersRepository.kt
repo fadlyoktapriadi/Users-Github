@@ -10,6 +10,8 @@ import java.util.concurrent.Executors
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.usersgithub.data.api.response.DetailUserResponse
+import com.example.usersgithub.data.api.response.FollowResponse
+import com.example.usersgithub.data.api.response.FollowResponseItem
 import com.example.usersgithub.data.api.response.UserGithub
 import com.example.usersgithub.data.local.preference.SettingPreferences
 import com.example.usersgithub.factory.Result
@@ -47,7 +49,25 @@ class UsersRepository private constructor(
         }
     }
 
+    fun getFollowing(username: String): LiveData<Result<List<FollowResponseItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getFollowing(username)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error("${e.message}"))
+        }
+    }
 
+    fun getFollowers(username: String): LiveData<Result<List<FollowResponseItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getFollowers(username)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error("${e.message}"))
+        }
+    }
 
 
 

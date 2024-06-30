@@ -32,14 +32,16 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        setupview()
+        val username = intent.getStringExtra("login").toString()
+
+        setupview(username)
         setuptab()
     }
 
 
     @SuppressLint("SetTextI18n")
-    private fun setupview() {
-        viewModel.getDetailUser(intent.getStringExtra("login").toString()).observe(this) {
+    private fun setupview(username: String) {
+        viewModel.getDetailUser(username).observe(this) {
             when (it) {
                 is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
@@ -65,15 +67,13 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setuptab() {
-//        val sectionsPagerAdapter = SectionsPagerAdapter(this, intent.getStringExtra("login").toString())
-//        binding.viewPager.adapter = sectionsPagerAdapter
-//        binding.tabs.setupWithViewPager(binding.viewPager)
+        val sectionsPagerAdapter = SectionsPagerAdapter(this)
+        binding.viewPager.adapter = sectionsPagerAdapter
 
         val tabLayout = findViewById<TabLayout>(R.id.tabs)
         val viewPager2 = findViewById<ViewPager2>(R.id.view_pager)
-        val adapter = SectionsPagerAdapter(this)
 
-        viewPager2.adapter = adapter
+        viewPager2.adapter = sectionsPagerAdapter
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()

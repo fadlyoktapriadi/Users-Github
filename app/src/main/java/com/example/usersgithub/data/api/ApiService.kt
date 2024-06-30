@@ -1,10 +1,9 @@
 package com.example.usersgithub.data.api
 
 import com.example.usersgithub.data.api.response.DetailUserResponse
-import com.example.usersgithub.data.api.response.FollowingFollowersResponseItem
+import com.example.usersgithub.data.api.response.FollowResponse
+import com.example.usersgithub.data.api.response.FollowResponseItem
 import com.example.usersgithub.data.api.response.GithubResponse
-import com.example.usersgithub.data.api.response.UserGithub
-import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
@@ -19,10 +18,10 @@ interface ApiService {
     ): DetailUserResponse
 
     @GET("users/{username}/following")
-    fun getFollowing(@Path("username") username: String
-    ): Call<List<FollowingFollowersResponseItem>>
+    suspend fun getFollowing(@Path("username") username: String
+    ): List<FollowResponseItem>
 
     @GET("users/{username}/followers")
-    fun getFollowers(@Path("username") username: String
-    ): Call<List<FollowingFollowersResponseItem>>
+    suspend fun getFollowers(@Path("username") username: String
+    ): List<FollowResponseItem>
 }

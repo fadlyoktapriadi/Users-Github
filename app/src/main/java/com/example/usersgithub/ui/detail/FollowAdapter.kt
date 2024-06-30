@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
-import com.example.usersgithub.data.api.response.FollowingFollowersResponseItem
+import com.example.usersgithub.data.api.response.FollowResponseItem
 import com.example.usersgithub.databinding.ItemFollowBinding
 
 class FollowAdapter :
-    ListAdapter<FollowingFollowersResponseItem, FollowAdapter.MyViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<FollowResponseItem, FollowAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemFollowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,23 +29,23 @@ class FollowAdapter :
 
     class MyViewHolder(val binding: ItemFollowBinding) : RecyclerView.ViewHolder(binding.root) {
         val photoProfileFollow: ImageView = itemView.findViewById(R.id.photoProfileFollow)
-        fun bind(follow: FollowingFollowersResponseItem) {
+        fun bind(follow: FollowResponseItem) {
             binding.tvUsernameFollow.text = follow.login
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FollowingFollowersResponseItem>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FollowResponseItem>() {
             override fun areItemsTheSame(
-                oldItem: FollowingFollowersResponseItem,
-                newItem: FollowingFollowersResponseItem
+                oldItem: FollowResponseItem,
+                newItem: FollowResponseItem
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: FollowingFollowersResponseItem,
-                newItem: FollowingFollowersResponseItem
+                oldItem: FollowResponseItem,
+                newItem: FollowResponseItem
             ): Boolean {
                 return oldItem == newItem
             }
