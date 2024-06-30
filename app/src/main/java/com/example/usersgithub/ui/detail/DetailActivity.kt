@@ -2,17 +2,20 @@ package com.example.usersgithub.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
+import com.example.usersgithub.data.local.entity.FavoriteUserGithub
 import com.example.usersgithub.databinding.ActivityDetailBinding
 import com.example.usersgithub.factory.ViewModelFactory
-import com.example.usersgithub.factory.Result
+import com.example.usersgithub.data.Result
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -33,9 +36,11 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val username = intent.getStringExtra("login").toString()
+        val avatar = intent.getStringExtra("avatar").toString()
 
         setupview(username)
-        setuptab()
+        setupFollow()
+        setupFavorite(username, avatar)
     }
 
 
@@ -66,7 +71,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setuptab() {
+    private fun setupFollow() {
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
         binding.viewPager.adapter = sectionsPagerAdapter
 
@@ -79,100 +84,63 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
     }
 
-    //
-//
-////        val pref = SettingPreferences.getInstance(application.dataStore)
-////        val settingviewModel = ViewModelProvider(this, SettingModelFactory(pref)).get(
-////            SettingViewModel::class.java
-////        )
-////
-////        settingviewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
-////            if (isDarkModeActive) {
-////                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-////            } else {
-////                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-////            }
-////        }
-//
-//        binding = ActivityDetailUserGithubBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        val detailUserViewModel = obtainViewModel(this@DetailUserGithub)
-//
-//        detailUserViewModel.username = intent.extras?.getString("username").toString()
-//
-//        detailUserViewModel.detailUser.observe(this) { userDetail ->
-//            setDataDetailUser(userDetail)
-//        }
-//
-//        detailUserViewModel.isLoading.observe(this) {
-//            showLoading(it)
-//        }
-//
-//
-//
-//        val username = intent.extras?.getString("username").toString()
-//        val avatar = intent.extras?.getString("avatar").toString()
-//
-//        val bundle = Bundle()
-//        bundle.putString(intent.extras?.getString("username").toString(), username)
-//
-////        detailUserViewModel.getFavoriteUserByUsername(username).observe(this) { userFav ->
-////            favorite = userFav
-////            when(favorite){
-////                null -> {
-////                    binding.fabFavorite.setImageDrawable(
-////                        ContextCompat.getDrawable(
-////                            binding.fabFavorite.context,
-////                            R.drawable.ic_favorite
-////                        )
-////                    )
-////                }
-////                else -> {
-////                    binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(binding.fabFavorite.context, R.drawable.ic_favorited))
-////                }
-////            }
-////        }
-////
-////        binding.fabFavorite.setOnClickListener{
-////            when(favorite){
-////                null -> {
-////                    favorite = FavoriteUserGithub()
-////                    favorite.let { favorite ->
-////                        favorite?.username = username
-////                        favorite?.avatarUrl = avatar
-////                    }
-////                    binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(binding.fabFavorite.context, R.drawable.ic_favorited))
-////                    detailUserViewModel.insert(favorite as FavoriteUserGithub)
-////                }
-////                else -> {
-////                    binding.fabFavorite.setImageDrawable(ContextCompat.getDrawable(binding.fabFavorite.context, R.drawable.ic_favorite))
-////                    detailUserViewModel.delete(favorite as FavoriteUserGithub)
-////                }
-////            }
-////        }
-////
-////    }
-//
-//    private fun setDataDetailUser(detailUser: DetailUserResponse) {
-//        binding.tvUsernameDetail.text = detailUser.login
-//        binding.tvNameAlias.text = detailUser.name
-//        binding.tvFollowing.text = "${detailUser.following} Following"
-//        binding.tvFollowers.text = "${detailUser.followers} Followers"
-//        Glide.with(this)
-//            .load(detailUser.avatarUrl)
-//            .into(binding.profileImageDetail)
-//    }
-//
-//    private fun obtainViewModel(activity: AppCompatActivity): DetailUserViewModel {
-//        val factory = ViewModelFactory.getInstance(activity.application)
-//        return ViewModelProvider(activity, factory).get(DetailUserViewModel::class.java)
-//    }
-//
-//    private fun showLoading(state: Boolean) {
-//        binding.progressBar.visibility = if (state) View.VISIBLE else View.GONE
-//    }
-//
+    private fun setupFavorite(login: String, avatar: String) {
+
+        val favx = FavoriteUserGithub()
+        viewModel.getFavoriteByLogin(login).observe(this) { favorite ->
+            
+            when(favorite){
+                null -> {
+                    binding.fabFavorite.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            binding.fabFavorite.context,
+                            R.drawable.ic_favorite
+                        )
+                    )
+                }
+                else -> {
+                    binding.fabFavorite.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            binding.fabFavorite.context,
+                            R.drawable.ic_favorited
+                        )
+                    )
+                }
+            }
+
+            binding.fabFavorite.setOnClickListener {
+                when (favorite) {
+                    null -> {
+                        favx.let { fav ->
+                            fav?.login = login
+                            fav?.avatarUrl = avatar
+                        }
+                        binding.fabFavorite.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                binding.fabFavorite.context,
+                                R.drawable.ic_favorited
+                            )
+                        )
+                        viewModel.insertFavorite(favx)
+                        Log.e("TES FAVORITE NULL", favorite.toString())
+                    }
+
+                    else -> {
+                        binding.fabFavorite.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                binding.fabFavorite.context,
+                                R.drawable.ic_favorite
+                            )
+                        )
+                        Log.e("TES FAVORITE", it.toString())
+                        viewModel.deleteFavorite(favorite)
+                    }
+                }
+            }
+        }
+
+    }
+
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(

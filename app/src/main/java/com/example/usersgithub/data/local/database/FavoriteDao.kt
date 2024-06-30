@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.usersgithub.data.local.entity.FavoriteUserGithub
 
 @Dao
 interface FavoriteDao {
@@ -18,6 +19,6 @@ interface FavoriteDao {
     @Query("SELECT * FROM FavoriteUserGithub")
     fun getFavoriteUser(): LiveData<List<FavoriteUserGithub>>
 
-    @Query("SELECT * FROM FavoriteUserGithub WHERE username = :username")
-    fun getFavoriteUserByUsername(username: String): LiveData<FavoriteUserGithub>
+    @Query("SELECT * FROM FavoriteUserGithub WHERE login = :login")
+    fun getFavoriteUserByLogin(login: String): LiveData<FavoriteUserGithub>
 }

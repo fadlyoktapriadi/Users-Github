@@ -12,10 +12,9 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
 import com.example.usersgithub.databinding.ActivityMainBinding
-import com.example.usersgithub.factory.Result
+import com.example.usersgithub.data.Result
 import com.example.usersgithub.factory.ViewModelFactory
 import com.example.usersgithub.ui.favorite.FavoriteUser
-import com.example.usersgithub.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         setupAction()
+        searchSetup()
 
     }
 
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun test(){
+    private fun searchSetup(){
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
 
@@ -76,8 +76,7 @@ class MainActivity : AppCompatActivity() {
                     searchBar.setText(searchView.text)
                     searchView.hide()
 
-//                        mainViewModel.findUsersBySearch(searchView.text.toString())
-
+                    searchData(searchBar.text.toString())
                     false
                 }
 
@@ -92,20 +91,41 @@ class MainActivity : AppCompatActivity() {
                             startActivity(favoriteIntent)
                             true
                         }
-
-                        R.id.setting_item -> {
-                            val favoriteIntent =
-                                Intent(this@MainActivity, SettingActivity::class.java)
-                            startActivity(favoriteIntent)
-                            true
-                        }
-
                         else -> {
                             false
                         }
                     }
                 }
             })
+        }
+    }
+
+    private fun searchData(query: String){
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvUser.layoutManager = layoutManager
+        val adapter = UserAdapter()
+        binding.rvUser.adapter = adapter
+
+        viewModel.getSearch(query).observe(this@MainActivity) {
+            when (it) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Success -> {
+                    adapter.submitList(it.data)
+                    binding.progressBar.visibility = View.GONE
+                }
+
+                is Result.Error -> {
+                    Toast.makeText(
+                        this,
+                        "Gagal ambil data ${it.error}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("TEST ERROR", it.error)
+                }
+            }
         }
     }
 }

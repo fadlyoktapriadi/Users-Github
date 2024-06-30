@@ -7,4 +7,6 @@ class MainViewModel(private val repository: UsersRepository) : ViewModel() {
 
     fun getUsers() = repository.getUsers()
 
+    fun getSearch(query: String) = repository.getSearch(query)
+
 }

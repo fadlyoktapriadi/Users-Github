@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
-import com.example.usersgithub.data.local.database.FavoriteUserGithub
+import com.example.usersgithub.data.local.entity.FavoriteUserGithub
 import com.example.usersgithub.databinding.ItemUserBinding
 import com.example.usersgithub.ui.detail.DetailActivity
 
@@ -30,8 +30,8 @@ class FavoriteAdapter : ListAdapter<FavoriteUserGithub, FavoriteAdapter.MyViewHo
         holder.itemView.setOnClickListener {
             val intentDetailUserGithub =
                 Intent(holder.itemView.context, DetailActivity::class.java)
-            intentDetailUserGithub.putExtra("username", userfav.username)
-            intentDetailUserGithub.putExtra("avatar", userfav.username)
+            intentDetailUserGithub.putExtra("login", userfav.login)
+            intentDetailUserGithub.putExtra("avatar", userfav.login)
             holder.itemView.context.startActivity(intentDetailUserGithub)
         }
 
@@ -40,7 +40,7 @@ class FavoriteAdapter : ListAdapter<FavoriteUserGithub, FavoriteAdapter.MyViewHo
     class MyViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         val photoProfile: ImageView = itemView.findViewById(R.id.photoProfile)
         fun bind(userfav: FavoriteUserGithub) {
-            binding.tvUsername.text = userfav.username
+            binding.tvUsername.text = userfav.login
         }
     }
 

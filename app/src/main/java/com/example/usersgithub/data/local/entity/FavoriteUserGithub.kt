@@ -1,4 +1,4 @@
-package com.example.usersgithub.data.local.database
+package com.example.usersgithub.data.local.entity
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -11,8 +11,8 @@ import kotlinx.parcelize.Parcelize
 data class FavoriteUserGithub(
     @PrimaryKey(autoGenerate = false)
 
-    @ColumnInfo(name = "username")
-    var username: String = "",
+    @ColumnInfo(name = "login")
+    var login: String = "",
 
     @ColumnInfo(name = "avatarUrl")
     var avatarUrl: String? = null,

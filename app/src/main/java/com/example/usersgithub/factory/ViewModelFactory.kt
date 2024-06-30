@@ -8,7 +8,6 @@ import com.example.usersgithub.di.Injection
 import com.example.usersgithub.ui.detail.DetailViewModel
 import com.example.usersgithub.ui.favorite.FavoriteViewModel
 import com.example.usersgithub.ui.main.MainViewModel
-import com.example.usersgithub.ui.setting.SettingViewModel
 
 class ViewModelFactory(private val repository: UsersRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -25,10 +24,6 @@ class ViewModelFactory(private val repository: UsersRepository) :
 
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
                 FavoriteViewModel(repository) as T
-            }
-
-            modelClass.isAssignableFrom(SettingViewModel::class.java) -> {
-                SettingViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

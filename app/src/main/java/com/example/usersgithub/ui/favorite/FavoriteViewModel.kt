@@ -5,7 +5,6 @@ import com.example.usersgithub.data.UsersRepository
 
 class FavoriteViewModel(private val repository: UsersRepository) : ViewModel() {
 
-//    private val mFavoriteRepository: UsersRepository = UsersRepository(application)
+    fun getFavorite() = repository.getFavorite()
 
-//    fun getFavoriteUser(): LiveData<List<FavoriteUserGithub>> = mFavoriteRepository.getFavoriteUser()
 }
