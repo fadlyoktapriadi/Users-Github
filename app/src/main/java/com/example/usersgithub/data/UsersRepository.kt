@@ -10,6 +10,7 @@ import com.example.usersgithub.data.api.response.UserGithub
 import com.example.usersgithub.data.local.database.FavoriteDao
 import com.example.usersgithub.data.local.entity.FavoriteUserGithub
 import com.example.usersgithub.domain.model.UserFav
+import com.example.usersgithub.domain.repository.IUserFavRepository
 import com.example.usersgithub.utils.AppExecutors
 import com.example.usersgithub.utils.DataMapper
 
@@ -18,7 +19,7 @@ class UsersRepository private constructor(
     private val apiService: ApiService,
     private val mFavoriteDao: FavoriteDao,
     private val appExecutors: AppExecutors
-) {
+): IUserFavRepository {
 
     fun getUsers(): LiveData<Result<List<UserGithub>>> = liveData {
         emit(Result.Loading)
@@ -75,30 +76,21 @@ class UsersRepository private constructor(
     fun getFavoriteByLogin(login: String): LiveData<UserFav> =
         mFavoriteDao.getFavoriteUserByLogin(login)
 
-//    fun insertFavorite(favoriteuser: FavoriteUserGithub) {
-//        appExecutors.diskIO.execute { mFavoriteDao.insert(favoriteuser) }
-//    }
-//
-//    fun deleteFavorite(favoriteuser: FavoriteUserGithub) {
-//        appExecutors.diskIO.execute { mFavoriteDao.delete(favoriteuser) }
-//    }
-
-    //    fun getFavoriteUser(): LiveData<List<UserFav>> {
-//        return Transformation.map(mFavoriteDao.getFavoriteUser()) {
-//            DataMapper.mapEntitiesToDomain(it)
-//        }
-//    }
-
-
-    fun setFavorite(userfav: UserFav) {
+    override fun setFavorite(userfav: UserFav) {
         val favEntity = DataMapper.mapDomainToEntity(userfav)
         appExecutors.diskIO.execute { mFavoriteDao.insert(favEntity) }
     }
 
-    fun deleteFavorite(userfav: UserFav) {
+    override fun deleteFavorite(userfav: UserFav) {
         val favEntity = DataMapper.mapDomainToEntity(userfav)
         appExecutors.diskIO.execute { mFavoriteDao.delete(favEntity) }
     }
+
+//    fun getFavoriteUser(): LiveData<List<UserFav>> {
+//        return Transformations.map(mFavoriteDao.getFavoriteUser()) {
+//            DataMapper.mapEntitiesToDomain(it)
+//        }
+//    }
 
     companion object {
         @SuppressLint("StaticFieldLeak")
