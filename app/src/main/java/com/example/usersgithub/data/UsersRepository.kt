@@ -1,30 +1,24 @@
 package com.example.usersgithub.data
 
-import com.example.usersgithub.data.api.ApiService
 import android.annotation.SuppressLint
-import android.content.Context
-import com.example.usersgithub.data.local.database.FavoriteDao
-import com.example.usersgithub.data.local.database.FavoriteRoomDatabase
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.example.usersgithub.data.api.ApiService
 import com.example.usersgithub.data.api.response.DetailUserResponse
 import com.example.usersgithub.data.api.response.FollowResponseItem
 import com.example.usersgithub.data.api.response.UserGithub
+import com.example.usersgithub.data.local.database.FavoriteDao
 import com.example.usersgithub.data.local.entity.FavoriteUserGithub
+import com.example.usersgithub.domain.model.UserFav
+import com.example.usersgithub.utils.AppExecutors
+import com.example.usersgithub.utils.DataMapper
+
 
 class UsersRepository private constructor(
-    private val context: Context,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val mFavoriteDao: FavoriteDao,
+    private val appExecutors: AppExecutors
 ) {
-    private val mFavoriteDao: FavoriteDao
-    private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
-
-    init {
-        val db = FavoriteRoomDatabase.getDatabase(context)
-        mFavoriteDao = db.favoriteDao()
-    }
 
     fun getUsers(): LiveData<Result<List<UserGithub>>> = liveData {
         emit(Result.Loading)
@@ -78,15 +72,32 @@ class UsersRepository private constructor(
 
     fun getFavorite(): LiveData<List<FavoriteUserGithub>> = mFavoriteDao.getFavoriteUser()
 
-    fun getFavoriteByLogin(login: String): LiveData<FavoriteUserGithub> =
+    fun getFavoriteByLogin(login: String): LiveData<UserFav> =
         mFavoriteDao.getFavoriteUserByLogin(login)
 
-    fun insertFavorite(favoriteuser: FavoriteUserGithub) {
-        executorService.execute { mFavoriteDao.insert(favoriteuser) }
+//    fun insertFavorite(favoriteuser: FavoriteUserGithub) {
+//        appExecutors.diskIO.execute { mFavoriteDao.insert(favoriteuser) }
+//    }
+//
+//    fun deleteFavorite(favoriteuser: FavoriteUserGithub) {
+//        appExecutors.diskIO.execute { mFavoriteDao.delete(favoriteuser) }
+//    }
+
+    //    fun getFavoriteUser(): LiveData<List<UserFav>> {
+//        return Transformation.map(mFavoriteDao.getFavoriteUser()) {
+//            DataMapper.mapEntitiesToDomain(it)
+//        }
+//    }
+
+
+    fun setFavorite(userfav: UserFav) {
+        val favEntity = DataMapper.mapDomainToEntity(userfav)
+        appExecutors.diskIO.execute { mFavoriteDao.insert(favEntity) }
     }
 
-    fun deleteFavorite(favoriteuser: FavoriteUserGithub) {
-        executorService.execute { mFavoriteDao.delete(favoriteuser) }
+    fun deleteFavorite(userfav: UserFav) {
+        val favEntity = DataMapper.mapDomainToEntity(userfav)
+        appExecutors.diskIO.execute { mFavoriteDao.delete(favEntity) }
     }
 
     companion object {
@@ -94,11 +105,12 @@ class UsersRepository private constructor(
         @Volatile
         private var instance: UsersRepository? = null
         fun getInstance(
-            context: Context,
-            apiService: ApiService
+            apiService: ApiService,
+            favoriteDao: FavoriteDao,
+            appExecutors: AppExecutors
         ): UsersRepository =
             instance ?: synchronized(this) {
-                instance ?: UsersRepository(context, apiService)
+                instance ?: UsersRepository(apiService, favoriteDao, appExecutors)
             }.also { instance = it }
     }
 }

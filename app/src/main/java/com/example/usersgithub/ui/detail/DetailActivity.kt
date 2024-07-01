@@ -12,10 +12,10 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
-import com.example.usersgithub.data.local.entity.FavoriteUserGithub
-import com.example.usersgithub.databinding.ActivityDetailBinding
-import com.example.usersgithub.factory.ViewModelFactory
 import com.example.usersgithub.data.Result
+import com.example.usersgithub.databinding.ActivityDetailBinding
+import com.example.usersgithub.domain.model.UserFav
+import com.example.usersgithub.factory.ViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -86,7 +86,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupFavorite(login: String, avatar: String) {
 
-        val favx = FavoriteUserGithub()
+        var favx = UserFav()
         viewModel.getFavoriteByLogin(login).observe(this) { favorite ->
             
             when(favorite){

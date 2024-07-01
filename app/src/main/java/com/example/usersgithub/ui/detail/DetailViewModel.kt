@@ -2,7 +2,7 @@ package com.example.usersgithub.ui.detail
 
 import androidx.lifecycle.ViewModel
 import com.example.usersgithub.data.UsersRepository
-import com.example.usersgithub.data.local.entity.FavoriteUserGithub
+import com.example.usersgithub.domain.model.UserFav
 
 
 class DetailViewModel(private val repository: UsersRepository) : ViewModel() {
@@ -17,8 +17,8 @@ class DetailViewModel(private val repository: UsersRepository) : ViewModel() {
 
     fun getFavoriteByLogin(login: String) = repository.getFavoriteByLogin(login)
 
-    fun insertFavorite(favoriteuser: FavoriteUserGithub) = repository.insertFavorite(favoriteuser)
+    fun insertFavorite(favoriteuser: UserFav) = repository.setFavorite(favoriteuser)
 
-    fun deleteFavorite(favoriteuser: FavoriteUserGithub) = repository.deleteFavorite(favoriteuser)
+    fun deleteFavorite(favoriteuser: UserFav) = repository.deleteFavorite(favoriteuser)
 
 }
