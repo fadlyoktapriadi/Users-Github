@@ -13,10 +13,22 @@ data class GithubResponse(
 
 data class UserGithub(
 
+	@field:SerializedName("id")
+	val id: Int?,
+
 	@field:SerializedName("login")
-	val login: String,
+	val login: String?,
 
 	@field:SerializedName("avatar_url")
-	val avatarUrl: String,
+	val avatarUrl: String?,
+
+	@field:SerializedName("name")
+	val name: String?,
+
+	@field:SerializedName("followers")
+	val followers: Int?,
+
+	@field:SerializedName("following")
+	val following: Int?
 
 )

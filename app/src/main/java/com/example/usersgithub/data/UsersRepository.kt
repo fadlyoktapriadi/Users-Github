@@ -1,108 +1,91 @@
 package com.example.usersgithub.data
 
-import android.annotation.SuppressLint
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import com.example.usersgithub.data.api.ApiService
-import com.example.usersgithub.data.api.response.DetailUserResponse
-import com.example.usersgithub.data.api.response.FollowResponseItem
+import com.example.usersgithub.data.api.ApiResponse
+import com.example.usersgithub.data.api.NetworkOnlyResource
+import com.example.usersgithub.data.api.RemoteDataSource
 import com.example.usersgithub.data.api.response.UserGithub
-import com.example.usersgithub.data.local.database.FavoriteDao
-import com.example.usersgithub.data.local.entity.FavoriteUserGithub
-import com.example.usersgithub.domain.model.UserFav
+import com.example.usersgithub.data.local.LocalDataSource
+import com.example.usersgithub.domain.model.User
 import com.example.usersgithub.domain.repository.IUserFavRepository
-import com.example.usersgithub.utils.AppExecutors
 import com.example.usersgithub.utils.DataMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
+class UsersRepository(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
+) : IUserFavRepository {
 
-class UsersRepository private constructor(
-    private val apiService: ApiService,
-    private val mFavoriteDao: FavoriteDao,
-    private val appExecutors: AppExecutors
-): IUserFavRepository {
+    override fun getUsers(query: String?): Flow<Result<List<User>>> {
+        return object : NetworkOnlyResource<List<User>, List<UserGithub>>() {
+            override fun loadFromNetwork(data: List<UserGithub>): Flow<List<User>> {
+                return DataMapper.mapResponsesToDomain(data)
+            }
 
-    fun getUsers(): LiveData<Result<List<UserGithub>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getUsers("fadly")
-            emit(Result.Success(response.items))
-        } catch (e: Exception) {
-            emit(Result.Error("${e.message}"))
+            override suspend fun createCall(): Flow<ApiResponse<List<UserGithub>>> {
+                return remoteDataSource.getUsers(query)
+            }
+
+        }.asFlow()
+    }
+
+    override fun getFollowers(username: String): Flow<Result<List<User>>> {
+        return object : NetworkOnlyResource<List<User>, List<UserGithub>>() {
+            override fun loadFromNetwork(data: List<UserGithub>): Flow<List<User>> {
+                return DataMapper.mapResponsesToDomain(data)
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<List<UserGithub>>> {
+                return remoteDataSource.getFollowers(username)
+            }
+
+        }.asFlow()
+    }
+
+    override fun getFollowing(username: String): Flow<Result<List<User>>> {
+        return object : NetworkOnlyResource<List<User>, List<UserGithub>>() {
+            override fun loadFromNetwork(data: List<UserGithub>): Flow<List<User>> {
+                return DataMapper.mapResponsesToDomain(data)
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<List<UserGithub>>> {
+                return remoteDataSource.getFollowing(username)
+            }
+        }.asFlow()
+    }
+
+    override fun getDetailUser(username: String): Flow<Result<User>> {
+        return object : NetworkOnlyResource<User, UserGithub>() {
+            override fun loadFromNetwork(data: UserGithub): Flow<User> {
+                return DataMapper.mapResponseToDomain(data)
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<UserGithub>> {
+                return remoteDataSource.getUserDetail(username)
+            }
+
+        }.asFlow()
+    }
+
+    override fun getFavoriteUser(): Flow<List<User>> {
+        return localDataSource.getUserFavorite().map {
+            DataMapper.mapEntitiesToDomain(it)
         }
     }
 
-    fun getSearch(query: String): LiveData<Result<List<UserGithub>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getUsers(query)
-            emit(Result.Success(response.items))
-        } catch (e: Exception) {
-            emit(Result.Error("${e.message}"))
+    override fun getDetail(username: String): Flow<User>? {
+        return localDataSource.getDetail(username)?.map {
+            DataMapper.mapEntityToDomain(it)
         }
     }
 
-    fun getDetailUser(username: String): LiveData<Result<DetailUserResponse>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getDetailUser(username)
-            emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error("${e.message}"))
-        }
+    override suspend fun insertUser(user: User) {
+        val domainUser = DataMapper.mapDomainToEntity(user)
+        return localDataSource.insertUser(domainUser)
     }
 
-    fun getFollowing(username: String): LiveData<Result<List<FollowResponseItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getFollowing(username)
-            emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error("${e.message}"))
-        }
-    }
-
-    fun getFollowers(username: String): LiveData<Result<List<FollowResponseItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getFollowers(username)
-            emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error("${e.message}"))
-        }
-    }
-
-    fun getFavorite(): LiveData<List<FavoriteUserGithub>> = mFavoriteDao.getFavoriteUser()
-
-    fun getFavoriteByLogin(login: String): LiveData<UserFav> =
-        mFavoriteDao.getFavoriteUserByLogin(login)
-
-    override fun setFavorite(userfav: UserFav) {
-        val favEntity = DataMapper.mapDomainToEntity(userfav)
-        appExecutors.diskIO.execute { mFavoriteDao.insert(favEntity) }
-    }
-
-    override fun deleteFavorite(userfav: UserFav) {
-        val favEntity = DataMapper.mapDomainToEntity(userfav)
-        appExecutors.diskIO.execute { mFavoriteDao.delete(favEntity) }
-    }
-
-//    fun getFavoriteUser(): LiveData<List<UserFav>> {
-//        return Transformations.map(mFavoriteDao.getFavoriteUser()) {
-//            DataMapper.mapEntitiesToDomain(it)
-//        }
-//    }
-
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        @Volatile
-        private var instance: UsersRepository? = null
-        fun getInstance(
-            apiService: ApiService,
-            favoriteDao: FavoriteDao,
-            appExecutors: AppExecutors
-        ): UsersRepository =
-            instance ?: synchronized(this) {
-                instance ?: UsersRepository(apiService, favoriteDao, appExecutors)
-            }.also { instance = it }
+    override suspend fun deleteUser(user: User): Int {
+        val domainUser = DataMapper.mapDomainToEntity(user)
+        return localDataSource.deleteUser(domainUser)
     }
 }

@@ -1,19 +1,30 @@
 package com.example.usersgithub.data.local.entity
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
-@Entity
-data class FavoriteUserGithub(
-    @PrimaryKey(autoGenerate = false)
+@Entity(tableName = "user_github_tbl")
+data class UserGithubEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    var id: Int?,
 
     @ColumnInfo(name = "login")
-    var login: String = "",
+    var login: String?,
 
-    @ColumnInfo(name = "avatarUrl")
-    var avatarUrl: String? = null,
-) : Parcelable
+    @ColumnInfo(name = "avatar_url")
+    var avatarUrl: String?,
+
+    @ColumnInfo(name = "name")
+    var name: String?,
+
+    @ColumnInfo(name = "followers")
+    var followers: Int?,
+
+    @ColumnInfo(name = "following")
+    var following: Int?,
+
+    @ColumnInfo(name = "isFavorite")
+    var isFavorite: Boolean?
+)
