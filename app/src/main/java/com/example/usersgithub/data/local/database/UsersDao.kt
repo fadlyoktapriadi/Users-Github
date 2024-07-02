@@ -15,10 +15,10 @@ interface UsersDao {
     fun getUserFavorite(): Flow<List<UserGithubEntity>>
 
     @Query("SELECT * FROM user_github_tbl WHERE login = :username")
-    fun getDetail(username: String): Flow<UserGithubEntity>?
+    fun getDetail(username: String): Flow<UserGithubEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertUser(user: UserGithubEntity?)
+    suspend fun insertUser(user: UserGithubEntity)
 
     @Delete
     suspend fun deleteUser(user: UserGithubEntity): Int

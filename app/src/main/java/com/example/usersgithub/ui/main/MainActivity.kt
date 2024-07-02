@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         setupAction()
         searchSetup()
-
+        Log.e("TEST", "TESTTTTTTT")
     }
 
     private fun setupAction() {
@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity() {
         val adapter = UserAdapter()
         binding.rvUser.adapter = adapter
 
+        mainViewModel.username.value = "Fadly"
         mainViewModel.users.observe(this) {
+//            Log.e("TEST ISI DATA", it.data.toString())
             when (it) {
                 is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE

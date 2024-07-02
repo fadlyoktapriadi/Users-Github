@@ -9,7 +9,7 @@ import com.example.usersgithub.databinding.ItemUserBinding
 import androidx.recyclerview.widget.ListAdapter
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.example.usersgithub.ui.detail.DetailActivity
+//import com.example.usersgithub.ui.detail.DetailActivity
 
 
 class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -25,10 +25,10 @@ class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLB
 
 
         holder.itemView.setOnClickListener {
-            val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
-            intentDetail.putExtra("login", user.login)
-            intentDetail.putExtra("avatar", user.avatarUrl)
-            holder.itemView.context.startActivity(intentDetail)
+//            val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
+//            intentDetail.putExtra("login", user.login)
+//            intentDetail.putExtra("avatar", user.avatarUrl)
+//            holder.itemView.context.startActivity(intentDetail)
         }
     }
 

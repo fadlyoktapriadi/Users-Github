@@ -10,7 +10,7 @@ import com.example.usersgithub.domain.model.User
 import com.example.usersgithub.domain.usecase.UserUseCase
 
 class MainViewModel(userUseCase: UserUseCase) : ViewModel() {
-    private var username: MutableLiveData<String> = MutableLiveData()
+    public var username: MutableLiveData<String> = MutableLiveData()
 
     val users: LiveData<Result<List<User>>> = username.switchMap { query ->
         userUseCase.getUsers(query).asLiveData()
