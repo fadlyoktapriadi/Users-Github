@@ -4,15 +4,15 @@ import android.content.Intent
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.usersgithub.data.api.response.UserGithub
 import com.example.usersgithub.databinding.ItemUserBinding
 import androidx.recyclerview.widget.ListAdapter
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-//import com.example.usersgithub.ui.detail.DetailActivity
+import com.example.usersgithub.domain.model.User
+import com.example.usersgithub.ui.detail.DetailActivity
 
 
-class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class UserAdapter : ListAdapter<User, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,15 +25,14 @@ class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLB
 
 
         holder.itemView.setOnClickListener {
-//            val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
-//            intentDetail.putExtra("login", user.login)
-//            intentDetail.putExtra("avatar", user.avatarUrl)
-//            holder.itemView.context.startActivity(intentDetail)
+            val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
+            intentDetail.putExtra("username", user.login)
+            holder.itemView.context.startActivity(intentDetail)
         }
     }
 
     class MyViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: UserGithub) {
+        fun bind(user: User) {
             binding.tvUsername.text = user.login
             Glide.with(binding.photoProfile.context)
                 .load(user.avatarUrl)
@@ -42,12 +41,12 @@ class UserAdapter : ListAdapter<UserGithub, UserAdapter.MyViewHolder>(DIFF_CALLB
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UserGithub>() {
-            override fun areItemsTheSame(oldItem: UserGithub, newItem: UserGithub): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<User>() {
+            override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: UserGithub, newItem: UserGithub): Boolean {
+            override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
                 return oldItem == newItem
             }
         }

@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         setupAction()
         searchSetup()
-        Log.e("TEST", "TESTTTTTTT")
     }
 
     private fun setupAction() {
@@ -40,14 +39,13 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.username.value = "Fadly"
         mainViewModel.users.observe(this) {
-//            Log.e("TEST ISI DATA", it.data.toString())
             when (it) {
                 is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
 
                 is Result.Success -> {
-//                    adapter.submitList(it.data)
+                    adapter.submitList(it.data)
                     Log.e("TEST ISI DATA", it.data.toString())
                     binding.progressBar.visibility = View.GONE
                 }
@@ -74,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     searchBar.setText(searchView.text)
                     searchView.hide()
 
-//                    searchData(searchBar.text.toString())
+                    searchData(searchBar.text.toString())
                     false
                 }
 
@@ -98,32 +96,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun searchData(query: String){
-//        val layoutManager = LinearLayoutManager(this)
-//        binding.rvUser.layoutManager = layoutManager
-//        val adapter = UserAdapter()
-//        binding.rvUser.adapter = adapter
-//
-//        viewModel.getSearch(query).observe(this@MainActivity) {
-//            when (it) {
-//                is Result.Loading -> {
-//                    binding.progressBar.visibility = View.VISIBLE
-//                }
-//
-//                is Result.Success -> {
-//                    adapter.submitList(it.data)
-//                    binding.progressBar.visibility = View.GONE
-//                }
-//
-//                is Result.Error -> {
-//                    Toast.makeText(
-//                        this,
-//                        "Gagal ambil data ${it.error}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    Log.e("TEST ERROR", it.error)
-//                }
-//            }
-//        }
-//    }
+    private fun searchData(query: String){
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvUser.layoutManager = layoutManager
+        val adapter = UserAdapter()
+        binding.rvUser.adapter = adapter
+
+        mainViewModel.username.value = query
+        mainViewModel.users.observe(this@MainActivity) {
+            when (it) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Success -> {
+                    adapter.submitList(it.data)
+                    binding.progressBar.visibility = View.GONE
+                }
+
+                is Result.Error -> {
+                    Toast.makeText(
+                        this,
+                        "Gagal ambil data ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("TEST ERROR", it.message.toString())
+                }
+            }
+        }
+    }
 }

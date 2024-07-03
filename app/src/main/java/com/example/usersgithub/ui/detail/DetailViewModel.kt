@@ -1,23 +1,22 @@
 package com.example.usersgithub.ui.detail
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.usersgithub.data.UsersRepository
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
+import com.example.usersgithub.data.Result
+import com.example.usersgithub.domain.model.User
+import com.example.usersgithub.domain.usecase.UserUseCase
 
 
-class DetailViewModel(private val repository: UsersRepository) : ViewModel() {
 
-//    fun getDetailUser(username: String) = repository.getDetailUser(username)
-//
-//    fun getFollowing(username: String) = repository.getFollowing(username)
-//
-//    fun getFollowers(username: String) = repository.getFollowers(username)
-//
-//    fun getFavorite() = repository.getFavorite()
-//
-//    fun getFavoriteByLogin(login: String) = repository.getFavoriteByLogin(login)
-//
-//    fun insertFavorite(favoriteuser: UserFav) = repository.setFavorite(favoriteuser)
-//
-//    fun deleteFavorite(favoriteuser: UserFav) = repository.deleteFavorite(favoriteuser)
 
+class DetailViewModel(private val userUseCase: UserUseCase) : ViewModel() {
+
+    fun getDetailUser(username: String) = userUseCase.getDetailUser(username).asLiveData()
+
+    fun getFollowers(username: String) = userUseCase.getFollowers(username).asLiveData()
+
+    fun getFollowing(username: String) = userUseCase.getFollowing(username).asLiveData()
 }
