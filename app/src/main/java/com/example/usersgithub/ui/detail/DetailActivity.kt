@@ -2,20 +2,16 @@ package com.example.usersgithub.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
 import com.example.usersgithub.data.Result
 import com.example.usersgithub.databinding.ActivityDetailBinding
-import com.example.usersgithub.ui.main.MainViewModel
-
+import com.example.usersgithub.domain.model.User
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,6 +22,8 @@ class DetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailBinding
 
     private val detailViewModel: DetailViewModel by viewModel()
+
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +36,7 @@ class DetailActivity : AppCompatActivity() {
 
         setupview(username)
         setupFollow()
-//        setupFavorite(username, avatar)
+        setupFavorite()
     }
 
 
@@ -59,6 +57,7 @@ class DetailActivity : AppCompatActivity() {
                     Glide.with(this)
                         .load(it.data.avatarUrl)
                         .into(binding.profileImageDetail)
+                    user = it.data
                 }
 
                 is Result.Error -> {
@@ -82,63 +81,22 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
     }
 
-//    private fun setupFavorite(login: String, avatar: String) {
-//
-//        var favx = UserFav()
-//        viewModel.getFavoriteByLogin(login).observe(this) { favorite ->
-//
-//            when(favorite){
-//                null -> {
-//                    binding.fabFavorite.setImageDrawable(
-//                        ContextCompat.getDrawable(
-//                            binding.fabFavorite.context,
-//                            R.drawable.ic_favorite
-//                        )
-//                    )
-//                }
-//                else -> {
-//                    binding.fabFavorite.setImageDrawable(
-//                        ContextCompat.getDrawable(
-//                            binding.fabFavorite.context,
-//                            R.drawable.ic_favorited
-//                        )
-//                    )
-//                }
-//            }
-//
-//            binding.fabFavorite.setOnClickListener {
-//                when (favorite) {
-//                    null -> {
-//                        favx.let { fav ->
-//                            fav?.login = login
-//                            fav?.avatarUrl = avatar
-//                        }
-//                        binding.fabFavorite.setImageDrawable(
-//                            ContextCompat.getDrawable(
-//                                binding.fabFavorite.context,
-//                                R.drawable.ic_favorited
-//                            )
-//                        )
-//                        viewModel.insertFavorite(favx)
-//                        Log.e("TES FAVORITE NULL", favorite.toString())
-//                    }
-//
-//                    else -> {
-//                        binding.fabFavorite.setImageDrawable(
-//                            ContextCompat.getDrawable(
-//                                binding.fabFavorite.context,
-//                                R.drawable.ic_favorite
-//                            )
-//                        )
-//                        Log.e("TES FAVORITE", it.toString())
-//                        viewModel.deleteFavorite(favorite)
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
-//
+    private fun setupFavorite() {
+        binding.fabFavorite.setOnClickListener {
+            if(user.isFavorite!!){
+                user.isFavorite = false
+                detailViewModel.deleteUser(user)
+                Toast.makeText(this, "Berhasil menghapus dari favorite", Toast.LENGTH_SHORT).show()
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
+            }else{
+                user.isFavorite = true
+                detailViewModel.insertUser(user)
+                Toast.makeText(this, "Berhasil menambahkan ke favorite", Toast.LENGTH_SHORT).show()
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorited)
+            }
+        }
+    }
+
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
