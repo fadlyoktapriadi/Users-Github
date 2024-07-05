@@ -1,5 +1,6 @@
 package com.example.usersgithub.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
 import com.example.usersgithub.data.Result
 import com.example.usersgithub.databinding.ActivityMainBinding
+import com.example.usersgithub.ui.favorite.FavoriteActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -82,9 +84,9 @@ class MainActivity : AppCompatActivity() {
                 override fun onMenuItemClick(item: MenuItem): Boolean {
                     return when (item.itemId) {
                         R.id.favorite_item -> {
-//                            val favoriteIntent =
-//                                Intent(this@MainActivity, FavoriteUser::class.java)
-//                            startActivity(favoriteIntent)
+                            val favoriteIntent =
+                                Intent(this@MainActivity, FavoriteActivity::class.java)
+                            startActivity(favoriteIntent)
                             true
                         }
                         else -> {

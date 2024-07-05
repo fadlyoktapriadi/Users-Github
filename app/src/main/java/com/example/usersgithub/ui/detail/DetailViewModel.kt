@@ -12,6 +12,8 @@ class DetailViewModel(private val userUseCase: UserUseCase) : ViewModel() {
 
     fun getDetailUser(username: String) = userUseCase.getDetailUser(username).asLiveData()
 
+    fun getDetail(username: String) = userUseCase.getDetail(username)?.asLiveData()
+
     fun getFollowers(username: String) = userUseCase.getFollowers(username).asLiveData()
 
     fun getFollowing(username: String) = userUseCase.getFollowing(username).asLiveData()
@@ -27,5 +29,7 @@ class DetailViewModel(private val userUseCase: UserUseCase) : ViewModel() {
             userUseCase.deleteUser(user)
         }
     }
+
+
 
 }

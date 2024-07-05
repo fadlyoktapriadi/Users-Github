@@ -2,6 +2,7 @@ package com.example.usersgithub.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -57,7 +58,9 @@ class DetailActivity : AppCompatActivity() {
                     Glide.with(this)
                         .load(it.data.avatarUrl)
                         .into(binding.profileImageDetail)
+                    Log.e("Hasil Favorite", it.data.isFavorite.toString())
                     user = it.data
+                    setupIconFavorite(username)
                 }
 
                 is Result.Error -> {
@@ -93,6 +96,16 @@ class DetailActivity : AppCompatActivity() {
                 detailViewModel.insertUser(user)
                 Toast.makeText(this, "Berhasil menambahkan ke favorite", Toast.LENGTH_SHORT).show()
                 binding.fabFavorite.setImageResource(R.drawable.ic_favorited)
+            }
+        }
+    }
+
+    private fun setupIconFavorite(username: String){
+        detailViewModel.getDetail(username)?.observe(this) {
+            if(it != null){
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorited)
+            }else{
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
             }
         }
     }
