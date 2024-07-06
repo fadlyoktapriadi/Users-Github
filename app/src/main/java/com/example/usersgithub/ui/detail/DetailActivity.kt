@@ -26,6 +26,8 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var user: User
 
+    private var isFavorite = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,7 +41,6 @@ class DetailActivity : AppCompatActivity() {
         setupFollow()
         setupFavorite()
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun setupview(username: String) {
@@ -58,15 +59,43 @@ class DetailActivity : AppCompatActivity() {
                     Glide.with(this)
                         .load(it.data.avatarUrl)
                         .into(binding.profileImageDetail)
-                    Log.e("Hasil Favorite", it.data.isFavorite.toString())
                     user = it.data
-                    setupIconFavorite(username)
+                    checkFavorite(username)
                 }
 
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Gagal ambil data ${it.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Gagal ambil data ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
                 }
+            }
+        }
+    }
+
+    private fun checkFavorite(username: String) {
+        detailViewModel.getDetail(username)?.observe(this) {
+            if (it.isFavorite != null) {
+                isFavorite = true
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorited)
+            } else {
+                isFavorite = false
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
+            }
+        }
+    }
+
+    private fun setupFavorite() {
+        binding.fabFavorite.setOnClickListener {
+            if (isFavorite == true) {
+                user.isFavorite = false
+                detailViewModel.deleteUser(user)
+                Toast.makeText(this, "Berhasil menghapus dari favorite", Toast.LENGTH_SHORT).show()
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
+            } else {
+                user.isFavorite = true
+                detailViewModel.insertUser(user)
+                Toast.makeText(this, "Berhasil menambahkan ke favorite", Toast.LENGTH_SHORT).show()
+                binding.fabFavorite.setImageResource(R.drawable.ic_favorited)
             }
         }
     }
@@ -82,32 +111,6 @@ class DetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
-    }
-
-    private fun setupFavorite() {
-        binding.fabFavorite.setOnClickListener {
-            if(user.isFavorite!!){
-                user.isFavorite = false
-                detailViewModel.deleteUser(user)
-                Toast.makeText(this, "Berhasil menghapus dari favorite", Toast.LENGTH_SHORT).show()
-                binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
-            }else{
-                user.isFavorite = true
-                detailViewModel.insertUser(user)
-                Toast.makeText(this, "Berhasil menambahkan ke favorite", Toast.LENGTH_SHORT).show()
-                binding.fabFavorite.setImageResource(R.drawable.ic_favorited)
-            }
-        }
-    }
-
-    private fun setupIconFavorite(username: String){
-        detailViewModel.getDetail(username)?.observe(this) {
-            if(it != null){
-                binding.fabFavorite.setImageResource(R.drawable.ic_favorited)
-            }else{
-                binding.fabFavorite.setImageResource(R.drawable.ic_favorite)
-            }
-        }
     }
 
     companion object {
