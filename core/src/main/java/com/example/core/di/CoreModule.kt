@@ -16,8 +16,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val API_KEY = "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v"
-private const val BASE_URL = "https://api.github.com/"
+private const val API_KEY = BuildConfig.KEY
+private const val BASE_URL = BuildConfig.BaseURL
 
 val databaseModule = module {
     factory {
