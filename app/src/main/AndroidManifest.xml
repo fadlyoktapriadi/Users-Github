@@ -18,7 +18,7 @@
         tools:replace="android:appComponentFactory"
         tools:targetApi="31">
         <activity
-            android:name=".ui.favorite.FavoriteActivity"
+            android:name="com.example.favorite.FavoriteActivity"
             android:exported="false" />
         <activity
             android:name=".ui.detail.DetailActivity"

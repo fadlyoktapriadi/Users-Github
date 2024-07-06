@@ -44,12 +44,14 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    dynamicFeatures += setOf(":favorite")
 
 }
 
 dependencies {
 
     implementation (project(":core"))
+    implementation ("com.google.android.play:core:1.10.3")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
 }

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
 import com.example.core.data.Result
 import com.example.usersgithub.databinding.ActivityMainBinding
-import com.example.usersgithub.ui.favorite.FavoriteActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchSetup(){
+    private fun searchSetup() {
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
 
@@ -81,9 +80,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onMenuItemClick(item: MenuItem): Boolean {
                     return when (item.itemId) {
                         R.id.favorite_item -> {
-                            val favoriteIntent =
-                                Intent(this@MainActivity, FavoriteActivity::class.java)
-                            startActivity(favoriteIntent)
+                            toFavorite()
                             true
                         }
                         else -> {
@@ -95,7 +92,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchData(query: String){
+    private fun toFavorite() {
+        try {
+            startActivity(Intent(this, Class.forName("com.example.favorite.FavoriteActivity")))
+        } catch (e: Exception){
+            Toast.makeText(this, "Module not found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun searchData(query: String) {
         val layoutManager = LinearLayoutManager(this)
         binding.rvUser.layoutManager = layoutManager
         val adapter = UserAdapter()

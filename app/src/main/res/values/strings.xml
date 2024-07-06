@@ -9,5 +9,7 @@
     <string name="setting">Setting</string>
     <string name="favorite">Favorite</string>
     <string name="night_mode">Night Mode</string>
+    <string name="title_dynamicfeature">Favorite</string>
+    <string name="title_favorite">Favorite</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
