@@ -49,7 +49,7 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
 
-    suspend fun getUserDetail(username: String): Flow<ApiResponse<UserGithub>> =
+    suspend fun getDetail(username: String): Flow<ApiResponse<UserGithub>> =
         flow {
             try {
                 val userDetail = apiService.getDetailUser(username)

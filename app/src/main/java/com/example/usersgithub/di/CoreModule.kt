@@ -2,6 +2,7 @@ package com.example.usersgithub.di
 
 
 import androidx.room.Room
+import com.example.usersgithub.BuildConfig
 import com.example.usersgithub.data.UsersRepository
 import com.example.usersgithub.data.api.ApiService
 import com.example.usersgithub.data.api.RemoteDataSource
@@ -15,8 +16,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val API_KEY = "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"
-private const val BASE_URL = "https://api.github.com/"
+private const val API_KEY = BuildConfig.KEY
+private const val BASE_URL = BuildConfig.BaseURL
 
 val databaseModule = module {
     factory {
@@ -25,7 +26,7 @@ val databaseModule = module {
     single {
         Room.databaseBuilder(
             androidContext(),
-            UserRoomDatabase::class.java, "Users.db"
+            UserRoomDatabase::class.java, "Users"
         ).fallbackToDestructiveMigration().build()
     }
 }

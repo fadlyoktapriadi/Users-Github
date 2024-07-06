@@ -10,7 +10,7 @@ class LocalDataSource(private val usersDao: UsersDao) {
 
     fun getDetail(username: String): Flow<UserGithubEntity>? = usersDao.getDetail(username)
 
-    suspend fun insertUser(user: UserGithubEntity) = usersDao.insertUser(user)
+    suspend fun insertUserFav(user: UserGithubEntity) = usersDao.insertUserFav(user)
 
-    suspend fun deleteUser(user: UserGithubEntity) = usersDao.deleteUser(user)
+    suspend fun deleteUserFav(user: UserGithubEntity) = usersDao.deleteUserFav(user)
 }

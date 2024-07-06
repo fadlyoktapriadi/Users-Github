@@ -84,9 +84,4 @@ dependencies {
     implementation ("io.insert-koin:koin-core:3.3.2")
     implementation ("io.insert-koin:koin-android:3.3.2")
     implementation ("io.insert-koin:koin-android-viewmodel:2.1.6")
-//    implementation("org.koin:koin-android:3.1.2")
-//    implementation("org.koin:koin-androidx-viewmodel:3.1.2")
-
-
-
 }

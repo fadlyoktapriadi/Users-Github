@@ -19,7 +19,7 @@ class UserInteractor (private val usersRepository: IUserFavRepository): UserUseC
 
     override fun getDetail(username: String): Flow<User>? = usersRepository.getDetail(username)
 
-    override suspend fun insertUser(user: User) = usersRepository.insertUser(user)
+    override suspend fun insertUserFav(user: User) = usersRepository.insertUserFav(user)
 
-    override suspend fun deleteUser(user: User): Int = usersRepository.deleteUser(user)
+    override suspend fun deleteUserFav(user: User): Int = usersRepository.deleteUserFav(user)
 }

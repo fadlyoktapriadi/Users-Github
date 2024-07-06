@@ -18,8 +18,8 @@ interface IUserFavRepository {
 
     fun getDetail(username: String): Flow<User>?
 
-    suspend fun insertUser(user: User)
+    suspend fun insertUserFav(user: User)
 
-    suspend fun deleteUser(user: User): Int
+    suspend fun deleteUserFav(user: User): Int
 
 }

@@ -20,13 +20,13 @@ class DetailViewModel(private val userUseCase: UserUseCase) : ViewModel() {
 
     fun insertUser(user: User) {
         viewModelScope.launch {
-            userUseCase.insertUser(user)
+            userUseCase.insertUserFav(user)
         }
     }
 
     fun deleteUser(user: User) {
         viewModelScope.launch {
-            userUseCase.deleteUser(user)
+            userUseCase.deleteUserFav(user)
         }
     }
 

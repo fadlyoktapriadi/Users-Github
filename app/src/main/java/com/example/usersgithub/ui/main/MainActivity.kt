@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
                 is Result.Success -> {
                     adapter.submitList(it.data)
-                    Log.e("TEST ISI DATA", it.data.toString())
                     binding.progressBar.visibility = View.GONE
                 }
 
@@ -58,7 +57,6 @@ class MainActivity : AppCompatActivity() {
                         "Gagal ambil data ${it.message}",
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.e("TEST ERROR", it.message.toString())
                 }
             }
         }
@@ -122,7 +120,6 @@ class MainActivity : AppCompatActivity() {
                         "Gagal ambil data ${it.message}",
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.e("TEST ERROR", it.message.toString())
                 }
             }
         }

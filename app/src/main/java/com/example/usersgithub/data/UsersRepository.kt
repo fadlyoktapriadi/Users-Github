@@ -61,7 +61,7 @@ class UsersRepository(
             }
 
             override suspend fun createCall(): Flow<ApiResponse<UserGithub>> {
-                return remoteDataSource.getUserDetail(username)
+                return remoteDataSource.getDetail(username)
             }
 
         }.asFlow()
@@ -79,13 +79,13 @@ class UsersRepository(
         }
     }
 
-    override suspend fun insertUser(user: User) {
+    override suspend fun insertUserFav(user: User) {
         val domainUser = DataMapper.mapDomainToEntity(user)
-        return localDataSource.insertUser(domainUser)
+        return localDataSource.insertUserFav(domainUser)
     }
 
-    override suspend fun deleteUser(user: User): Int {
+    override suspend fun deleteUserFav(user: User): Int {
         val domainUser = DataMapper.mapDomainToEntity(user)
-        return localDataSource.deleteUser(domainUser)
+        return localDataSource.deleteUserFav(domainUser)
     }
 }
