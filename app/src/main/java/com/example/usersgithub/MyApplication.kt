@@ -1,9 +1,9 @@
 package com.example.usersgithub
 
 import android.app.Application
-import com.example.usersgithub.di.databaseModule
-import com.example.usersgithub.di.networkModule
-import com.example.usersgithub.di.repositoryModule
+import com.example.core.di.databaseModule
+import com.example.core.di.networkModule
+import com.example.core.di.repositoryModule
 import com.example.usersgithub.di.useCaseModule
 import com.example.usersgithub.di.viewModelModule
 import org.koin.android.ext.koin.androidContext

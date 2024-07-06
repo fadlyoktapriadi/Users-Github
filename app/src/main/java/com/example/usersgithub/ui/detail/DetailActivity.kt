@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.usersgithub.R
-import com.example.usersgithub.data.Result
+import com.example.core.data.Result
 import com.example.usersgithub.databinding.ActivityDetailBinding
-import com.example.usersgithub.domain.model.User
+import com.example.core.domain.model.User
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -52,13 +52,13 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.tvUsernameDetail.text = it.data!!.login
-                    binding.tvNameAlias.text = it.data.name
-                    binding.tvFollowing.text = "${it.data.following} Following"
-                    binding.tvFollowers.text = "${it.data.followers} Followers"
+                    binding.tvNameAlias.text = it.data!!.name
+                    binding.tvFollowing.text = "${it.data!!.following} Following"
+                    binding.tvFollowers.text = "${it.data!!.followers} Followers"
                     Glide.with(this)
-                        .load(it.data.avatarUrl)
+                        .load(it.data!!.avatarUrl)
                         .into(binding.profileImageDetail)
-                    user = it.data
+                    user = it.data!!
                     checkFavorite(username)
                 }
 

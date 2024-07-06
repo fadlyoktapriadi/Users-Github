@@ -3,8 +3,8 @@ package com.example.usersgithub.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.usersgithub.domain.model.User
-import com.example.usersgithub.domain.usecase.UserUseCase
+import com.example.core.domain.model.User
+import com.example.core.domain.usecase.UserUseCase
 import kotlinx.coroutines.launch
 
 

@@ -2,7 +2,6 @@ package com.example.usersgithub.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -10,7 +9,7 @@ import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
-import com.example.usersgithub.data.Result
+import com.example.core.data.Result
 import com.example.usersgithub.databinding.ActivityMainBinding
 import com.example.usersgithub.ui.favorite.FavoriteActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -4,11 +4,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.usersgithub.databinding.ItemUserBinding
+import com.example.core.databinding.ItemUserBinding
 import androidx.recyclerview.widget.ListAdapter
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.example.usersgithub.domain.model.User
+import com.example.core.domain.model.User
 import com.example.usersgithub.ui.detail.DetailActivity
 
 
