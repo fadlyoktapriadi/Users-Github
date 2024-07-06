@@ -37,7 +37,7 @@ val networkModule = module {
             .addInterceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
-                    .header("Authorization", com.example.core.di.API_KEY)
+                    .header("Authorization", API_KEY)
                 val request = requestBuilder.build()
                 chain.proceed(request)
             }
@@ -48,7 +48,7 @@ val networkModule = module {
 
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl(com.example.core.di.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
