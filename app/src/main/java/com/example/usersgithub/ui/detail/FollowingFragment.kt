@@ -20,7 +20,7 @@ class FollowingFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val username = requireActivity().intent.extras?.getString("username").toString()
+        val username = requireActivity().intent.extras?.getString(UserAdapter.USERNAME).toString()
         binding = FragmentFollowingBinding.bind(view)
 
         binding.rvFollowing.layoutManager = LinearLayoutManager(requireActivity())

@@ -26,7 +26,7 @@ class UserAdapter : ListAdapter<User, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
         holder.itemView.setOnClickListener {
             val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
-            intentDetail.putExtra("username", user.login)
+            intentDetail.putExtra(USERNAME, user.login)
             holder.itemView.context.startActivity(intentDetail)
         }
     }
@@ -41,6 +41,9 @@ class UserAdapter : ListAdapter<User, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
     }
 
     companion object {
+
+        const val USERNAME = "USERNAME"
+
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<User>() {
             override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
                 return oldItem == newItem

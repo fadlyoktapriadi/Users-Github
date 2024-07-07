@@ -12,6 +12,7 @@ import com.example.usersgithub.R
 import com.example.core.data.Result
 import com.example.usersgithub.databinding.ActivityDetailBinding
 import com.example.core.domain.model.User
+import com.example.usersgithub.ui.main.UserAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,14 +35,13 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        val username = intent.getStringExtra("username").toString()
+        val username = intent.getStringExtra(UserAdapter.USERNAME).toString()
 
         setupview(username)
         setupFollow()
         setupFavorite()
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setupview(username: String) {
         detailViewModel.getDetailUser(username).observe(this) {
             when (it) {
@@ -53,8 +53,8 @@ class DetailActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     binding.tvUsernameDetail.text = it.data!!.login
                     binding.tvNameAlias.text = it.data!!.name
-                    binding.tvFollowing.text = "${it.data!!.following} Following"
-                    binding.tvFollowers.text = "${it.data!!.followers} Followers"
+                    binding.tvFollowing.text = resources.getString(R.string.following, it.data!!.following)
+                    binding.tvFollowers.text = resources.getString(R.string.followers, it.data!!.followers)
                     Glide.with(this)
                         .load(it.data!!.avatarUrl)
                         .into(binding.profileImageDetail)
