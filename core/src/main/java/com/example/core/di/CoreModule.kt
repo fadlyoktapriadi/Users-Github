@@ -9,6 +9,8 @@ import com.example.core.data.api.RemoteDataSource
 import com.example.core.data.local.LocalDataSource
 import com.example.core.data.local.database.UserRoomDatabase
 import com.example.core.domain.repository.IUserFavRepository
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -24,10 +26,14 @@ val databaseModule = module {
         get<UserRoomDatabase>().usersDao()
     }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("fadly".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),
             UserRoomDatabase::class.java, "Users"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 
