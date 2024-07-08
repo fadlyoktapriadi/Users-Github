@@ -55,4 +55,5 @@ dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
     //noinspection RiskyLibrary
     implementation ("com.google.android.play:core:1.10.2")
+    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.10")
 }
