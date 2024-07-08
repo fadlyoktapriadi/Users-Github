@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usersgithub.R
 import com.example.core.data.Result
 import com.example.usersgithub.databinding.ActivityMainBinding
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -93,11 +96,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toFavorite() {
-        try {
-            startActivity(Intent(this, Class.forName("com.example.favorite.FavoriteActivity")))
-        } catch (e: Exception){
-            Toast.makeText(this, "Module not found", Toast.LENGTH_SHORT).show()
+        val manager: SplitInstallManager = SplitInstallManagerFactory.create(this)
+        val moduleName = "favorite"
+        if (manager.installedModules.contains(moduleName)) {
+            startFavoriteActivity()
+        } else {
+            val request = SplitInstallRequest.newBuilder()
+                .addModule(moduleName)
+                .build()
+
+            manager.startInstall(request)
+                .addOnSuccessListener {
+                    startFavoriteActivity()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to load feature", Toast.LENGTH_SHORT).show()
+                }
         }
+    }
+
+    private fun startFavoriteActivity() {
+        val intent = Intent().setClassName(this, "com.example.favorite.FavoriteActivity")
+        startActivity(intent)
     }
 
     private fun searchData(query: String) {
