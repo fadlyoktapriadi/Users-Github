@@ -5,10 +5,7 @@
 
     <string name="tab_text_1">Following</string>
     <string name="tab_text_2">Followers</string>
-    <string name="setting">Setting</string>
     <string name="favorite">Favorite</string>
-    <string name="night_mode">Night Mode</string>
-    <string name="title_dynamicfeature">Favorite</string>
     <string name="title_favorite">Favorite</string>
     <string name="following">%d Following</string>
     <string name="followers">%d Followers</string>
