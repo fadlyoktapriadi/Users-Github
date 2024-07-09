@@ -1,16 +1,19 @@
 package com.example.core.data.api.response
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class GithubResponse(
 
 	@field:SerializedName("total_count")
 	val totalCount: Int? = null,
 
 	@field:SerializedName("items")
-	val items: List<com.example.core.data.api.response.UserGithub>
+	val items: List<UserGithub>
 )
 
+@Keep
 data class UserGithub(
 
 	@field:SerializedName("id")
