@@ -9,5 +9,6 @@
     <string name="title_favorite">Favorite</string>
     <string name="following">%d Following</string>
     <string name="followers">%d Followers</string>
+    <string name="for_add_user_favorite">For add User favorite</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
