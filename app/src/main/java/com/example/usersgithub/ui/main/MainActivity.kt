@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
             searchView
                 .editText
-                .setOnEditorActionListener { textView, actionId, event ->
+                .setOnEditorActionListener { _, _, _ ->
                     searchBar.setText(searchView.text)
                     searchView.hide()
 
